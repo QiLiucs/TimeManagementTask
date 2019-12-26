@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "548306003817",
+    "firebase_url": "https://timemanagementtask.firebaseio.com",
+    "project_id": "timemanagementtask",
+    "storage_bucket": "timemanagementtask.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548306003817:android:feba5cd9b438381ddd7ff8",
+        "android_client_info": {
+          "package_name": "com.example.kiki.timemanagementtask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548306003817-q6leotc7atpem8d1uf9iknp28bdv3u4o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kiki.timemanagementtask",
+            "certificate_hash": "ed95b9bfe04247d02809469d5b880f2b7772c2de"
+          }
+        },
+        {
+          "client_id": "548306003817-ba631vj29ko7gtl8q9rhkarobq2lsm9r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1j4lQRHYqEO3UpWwaw7s8QK3EViPoE_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548306003817-ba631vj29ko7gtl8q9rhkarobq2lsm9r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
