@@ -1,17 +1,24 @@
 package com.example.kiki.timemanagementtask;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.app.DatePickerDialog;
 import android.widget.DatePicker;
-import android.widget.EditText;
 
 import java.util.Calendar;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+    DatePickerListener listener;
+    private String fragmentName;
+
+    public interface DatePickerListener {
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth);
+    }
 
     @NonNull
     @Override
@@ -31,12 +38,23 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        if (getActivity().getCurrentFocus() != null) {
-            EditText editText = (EditText) getActivity().getCurrentFocus();
-            editText.setText(year + "-" + month + "-" + dayOfMonth);
-        }
-
+        listener.onDateSet(view, year, month, dayOfMonth);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentName = getArguments().getString("name");
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the NoticeDialogListener so we can send events to the host
+            MainActivity mainActivity = (MainActivity) context;
+            listener = (DatePickerListener) mainActivity.getSupportFragmentManager().findFragmentByTag(fragmentName);
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(context.toString()
+                    + " must implement DatePickerListener");
+        }
+    }
 
 }

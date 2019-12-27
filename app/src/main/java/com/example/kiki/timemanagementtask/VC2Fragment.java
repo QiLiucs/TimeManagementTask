@@ -40,12 +40,13 @@ import java.util.Map;
  * Use the {@link VC2Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VC2Fragment extends Fragment {
+public class VC2Fragment extends Fragment implements DatePickerFragment.DatePickerListener {
 
     private OnFragmentInteractionListener mListener;
     private FirebaseFirestore db;
     private final String TAG = "VC2Fragment_tag";
     private Goal goal;
+    public static String mName = "vc2";
 
     public VC2Fragment() {
         // Required empty public constructor
@@ -135,7 +136,7 @@ public class VC2Fragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    showDatePickerDialog(getView(), "ddlDatePicker");
+                    showDatePickerDialog("ddlDatePicker", mName);
 
                 }
             }
@@ -146,7 +147,7 @@ public class VC2Fragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    showDatePickerDialog(getView(), "startDatePicker");
+                    showDatePickerDialog("startDatePicker", mName);
 
                 }
             }
@@ -154,9 +155,11 @@ public class VC2Fragment extends Fragment {
     }
 
 
-    public void showDatePickerDialog(View v, String s) {
+    public void showDatePickerDialog(String s, String fragmentName) {
         DialogFragment newFragment = new DatePickerFragment();
-
+        Bundle bundle = new Bundle();
+        bundle.putString("name", fragmentName);
+        newFragment.setArguments(bundle);
         newFragment.show(getActivity().getSupportFragmentManager(), s);
     }
 
@@ -166,12 +169,13 @@ public class VC2Fragment extends Fragment {
     }
 
     public void showAddSubgoalDialog(){
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        FragmentManager fragmentManager = this.getFragmentManager();
         AddSubgoalDialog addSubgoalDialog = new AddSubgoalDialog();
         Bundle bundle = new Bundle();
         bundle.putParcelable("goal", goal);
         addSubgoalDialog.setArguments(bundle);
-        addSubgoalDialog.show(fragmentManager, "");
+        addSubgoalDialog.show(fragmentManager, AddSubgoalDialog.mName);
 
     }
 
@@ -190,6 +194,15 @@ public class VC2Fragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        if(getActivity().getCurrentFocus() != null){
+            EditText editText = (EditText)getActivity().getCurrentFocus();
+            editText.setText(year + "-" + month + "-" + dayOfMonth);
+        }
+
     }
 
     /**

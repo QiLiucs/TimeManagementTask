@@ -43,6 +43,8 @@ public class VC1Fragment extends Fragment {
     private FirebaseFirestore db;
     private String TAG = "VC1Fragment_tag";
     private ArrayList<QueryDocumentSnapshot> goalList;
+    public static String mName = "vc1";
+
 
     public VC1Fragment() {
         // Required empty public constructor
@@ -78,16 +80,16 @@ public class VC1Fragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        String collectionsName = "goalItems2";
-        CollectionReference ref = db.collection(collectionsName);
-        final ProgressDialog progressBar = new ProgressDialog(getActivity());
-        progressBar.setCancelable(false);//you can cancel it by pressing back button
-        progressBar.setMessage("Fetching data ...");
-        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressBar.setProgress(0);//initially progress is 0
-        progressBar.setMax(100);//sets the maximum value 100
-        progressBar.show();//displays the progress bar
+//        super.onViewCreated(view, savedInstanceState);
+//        String collectionsName = "goalItems2";
+//        CollectionReference ref = db.collection(collectionsName);
+//        final ProgressDialog progressBar = new ProgressDialog(getActivity());
+//        progressBar.setCancelable(false);//you can cancel it by pressing back button
+//        progressBar.setMessage("Fetching data ...");
+//        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        progressBar.setProgress(0);//initially progress is 0
+//        progressBar.setMax(100);//sets the maximum value 100
+//        progressBar.show();//displays the progress bar
         //fetchData(ref, progressBar);
 
     }

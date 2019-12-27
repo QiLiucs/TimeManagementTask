@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements VC1Fragment.OnFra
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new VC1Fragment(),"vc1")
+                    .replace(R.id.container, new VC1Fragment(),VC1Fragment.mName)
                     .commit();
         }
 
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements VC1Fragment.OnFra
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new VC1Fragment(),"vc1")
+                        .replace(R.id.container, new VC1Fragment(),VC1Fragment.mName)
                         .commit();
             }
         });
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements VC1Fragment.OnFra
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new VC2Fragment(),"vc2")
+                        .replace(R.id.container, new VC2Fragment(),VC2Fragment.mName)
                         .commit();
             }
         });
