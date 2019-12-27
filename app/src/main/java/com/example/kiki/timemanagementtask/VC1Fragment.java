@@ -88,6 +88,11 @@ public class VC1Fragment extends Fragment {
         progressBar.setProgress(0);//initially progress is 0
         progressBar.setMax(100);//sets the maximum value 100
         progressBar.show();//displays the progress bar
+        //fetchData(ref, progressBar);
+
+    }
+
+    public void fetchData(CollectionReference ref, final ProgressDialog progressBar) {
         ref.orderBy("ddl", Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -110,10 +115,10 @@ public class VC1Fragment extends Fragment {
                                     String res = "";
                                     HashMap<String, Object> goalMap = (HashMap<String, Object>) document.getData();
                                     ArrayList<HashMap<String, Object>> subGoalsList = (ArrayList<HashMap<String, Object>>) goalMap.get("subGoals");
-                                    for(HashMap<String, Object> map: subGoalsList){
-                                        res += (String)map.get("subgoal");
+                                    for (HashMap<String, Object> map : subGoalsList) {
+                                        res += (String) map.get("subgoal");
                                         res += "  ";
-                                        res += Goal.computeHowManyDaysLeft((String)map.get("startDate"),(String)map.get("ddl"));
+                                        res += Goal.computeHowManyDaysLeft((String) map.get("startDate"), (String) map.get("ddl"));
                                         res += "\n\n";
                                     }
                                     tvSubgoalsList.setText(res);

@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,72 +88,7 @@ public class VC2Fragment extends Fragment {
         addSubGoalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.setContentView(R.layout.dialog);
-                int width = ViewGroup.LayoutParams.MATCH_PARENT;
-                int height = ViewGroup.LayoutParams.MATCH_PARENT;
-                dialog.getWindow().setLayout(width, height);
-                dialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
-                dialog.show();
-
-                ImageButton declineButton = dialog.findViewById(R.id.close);
-                // if decline button is clicked, close the custom dialog
-                declineButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Close dialog
-                        dialog.dismiss();
-                    }
-                });
-
-                Button saveBtn = dialog.findViewById(R.id.save);
-                saveBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Close dialog
-                        dialog.dismiss();
-                    }
-                });
-
-                final EditText subGoalnameEdit = dialog.findViewById(R.id.subGoalName);
-                final EditText ddlEdit = dialog.findViewById(R.id.subGoalDdl);
-                final EditText durationEdit = dialog.findViewById(R.id.subGoalDuration);
-                final EditText difficultyEdit = dialog.findViewById(R.id.subGoalDifficulty);
-                final EditText startDateEdit = dialog.findViewById(R.id.subGoalStartDate);
-
-//                ddlEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                    @Override
-//                    public void onFocusChange(View v, boolean hasFocus) {
-//                        if(hasFocus){
-//                            showDatePickerDialog(getView(), "subgoalDdlDatePicker");
-//                        }
-//                    }
-//                });
-//
-//                startDateEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                    @Override
-//                    public void onFocusChange(View v, boolean hasFocus) {
-//                        if(hasFocus){
-//                            showDatePickerDialog(getView(), "subgoalStartDatePicker");
-//                        }
-//                    }
-//                });
-
-                Button addSubgoalBtn = dialog.findViewById(R.id.addgoal);
-                addSubgoalBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String subGoalName = subGoalnameEdit.getText().toString();
-                        String ddl = ddlEdit.getText().toString();
-                        String duration = durationEdit.getText().toString();
-                        String difficulty = difficultyEdit.getText().toString();
-                        String startDate = startDateEdit.getText().toString();
-                        SubGoal subGoal = new SubGoal(subGoalName, ddl, duration, difficulty, startDate);
-                        goal.addSubgoal(subGoal);
-                        cleanUpForm(subGoalnameEdit, ddlEdit, durationEdit, difficultyEdit, startDateEdit);
-                        Toast.makeText(getActivity(), "subgoal added!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                showAddSubgoalDialog();
             }
         });
 
@@ -219,15 +156,23 @@ public class VC2Fragment extends Fragment {
 
     public void showDatePickerDialog(View v, String s) {
         DialogFragment newFragment = new DatePickerFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("name", s);
-        newFragment.setArguments(bundle);
+
         newFragment.show(getActivity().getSupportFragmentManager(), s);
     }
 
-    public void cleanUpForm(TextView ... textViews){
+    public static void cleanUpForm(TextView ... textViews){
         for(TextView textView: textViews)
             textView.setText("");
+    }
+
+    public void showAddSubgoalDialog(){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        AddSubgoalDialog addSubgoalDialog = new AddSubgoalDialog();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("goal", goal);
+        addSubgoalDialog.setArguments(bundle);
+        addSubgoalDialog.show(fragmentManager, "");
+
     }
 
     @Override
