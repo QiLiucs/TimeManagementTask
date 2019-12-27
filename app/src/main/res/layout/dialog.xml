@@ -7,100 +7,110 @@
     android:id="@+id/dialog"
     >
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <EditText
+                android:id="@+id/subGoalName"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="98dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="sub goal"
+                android:background="@drawable/edittext"
+                android:layout_centerHorizontal="true"/>
 
-    <EditText
-        android:id="@+id/subGoalName"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="98dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="sub goal"
-        android:background="@drawable/edittext"
-        android:layout_centerHorizontal="true"/>
+            <EditText
+                android:id="@+id/subGoalDdl"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/subGoalName"
+                android:layout_centerHorizontal="true"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="sub-deadline"
+                android:background="@drawable/edittext"
+                android:layout_marginTop="10dp"
+                />
 
-    <EditText
-        android:id="@+id/subGoalDdl"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/subGoalName"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="sub-deadline"
-        android:background="@drawable/edittext"
-        android:layout_marginTop="10dp"
-        />
+            <EditText
+                android:id="@+id/subGoalDuration"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/subGoalDdl"
+                android:layout_centerHorizontal="true"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="how long will it take"
+                android:background="@drawable/edittext"
+                android:layout_marginTop="10dp"
+                />
 
-    <EditText
-        android:id="@+id/subGoalDuration"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/subGoalDdl"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="how long will it take"
-        android:background="@drawable/edittext"
-        android:layout_marginTop="10dp"
-        />
+            <EditText
+                android:id="@+id/subGoalDifficulty"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/subGoalDuration"
+                android:layout_centerHorizontal="true"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="please select difficulty level"
+                android:background="@drawable/edittext"
+                android:layout_marginTop="10dp"/>
 
-    <EditText
-        android:id="@+id/subGoalDifficulty"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/subGoalDuration"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="please select difficulty level"
-        android:background="@drawable/edittext"
-        android:layout_marginTop="10dp"/>
+            <EditText
+                android:id="@+id/subGoalStartDate"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/subGoalDifficulty"
+                android:layout_centerHorizontal="true"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="start date"
+                android:background="@drawable/edittext"
+                android:layout_marginTop="10dp"/>
 
-    <EditText
-        android:id="@+id/subGoalStartDate"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/subGoalDifficulty"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="start date"
-        android:background="@drawable/edittext"
-        android:layout_marginTop="10dp"/>
+            <Button
+                android:id="@+id/addgoal"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/rect_btn"
+                android:text="add sub goals"
+                android:layout_marginTop="10dp"
+                android:textColor="#ffffff"
+                android:layout_below="@+id/subGoalStartDate"/>
 
-    <Button
-        android:id="@+id/addgoal"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/rect_btn"
-        android:text="add sub goals"
-        android:layout_marginTop="10dp"
-        android:textColor="#ffffff"
-        android:layout_below="@+id/subGoalStartDate"/>
+            <Button
+                android:id="@+id/save"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:text="save"
+                android:textColor="#ffffff"
+                android:background="@drawable/rect_btn"
+                android:layout_below="@id/addgoal"
+                android:layout_marginTop="50dp"/>
 
-    <Button
-        android:id="@+id/save"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:text="save"
-        android:textColor="#ffffff"
-        android:background="@drawable/rect_btn"
-        android:layout_below="@id/addgoal"/>
+            <ImageButton
+                android:id="@+id/close"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="13dp"
+                android:src="@drawable/baseline_highlight_off_black_18dp"
+                android:background="#00000000"
+                android:scaleType="fitXY"
+                />
+        </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/close"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="13dp"
-        android:src="@drawable/baseline_highlight_off_black_18dp"
-        android:background="#00000000"
-        android:scaleType="fitXY"
-        />
+    </ScrollView>
+
 </RelativeLayout>
