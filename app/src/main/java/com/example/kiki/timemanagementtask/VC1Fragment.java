@@ -80,22 +80,22 @@ public class VC1Fragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        String collectionsName = "goalItems2";
-//        CollectionReference ref = db.collection(collectionsName);
-//        final ProgressDialog progressBar = new ProgressDialog(getActivity());
-//        progressBar.setCancelable(false);//you can cancel it by pressing back button
-//        progressBar.setMessage("Fetching data ...");
-//        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//        progressBar.setProgress(0);//initially progress is 0
-//        progressBar.setMax(100);//sets the maximum value 100
-//        progressBar.show();//displays the progress bar
-        //fetchData(ref, progressBar);
+        super.onViewCreated(view, savedInstanceState);
+        String collectionsName = MainActivity.collectionsName;
+        CollectionReference ref = db.collection(collectionsName);
+        final ProgressDialog progressBar = new ProgressDialog(getActivity());
+        progressBar.setCancelable(false);//you can cancel it by pressing back button
+        progressBar.setMessage("Fetching data ...");
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setProgress(0);//initially progress is 0
+        progressBar.setMax(100);//sets the maximum value 100
+        progressBar.show();//displays the progress bar
+        fetchData(ref, progressBar);
 
     }
 
     public void fetchData(CollectionReference ref, final ProgressDialog progressBar) {
-        ref.orderBy("ddl", Query.Direction.DESCENDING).get()
+        ref.orderBy("ddl", Query.Direction.ASCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

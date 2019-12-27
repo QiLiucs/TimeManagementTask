@@ -110,7 +110,7 @@ public class VC2Fragment extends Fragment implements DatePickerFragment.DatePick
                 goal.setStartDate(startDate);
 
                 Log.d(TAG, "send date");
-                db.collection("goalItems2")
+                db.collection(MainActivity.collectionsName)
                         .add(goal)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override

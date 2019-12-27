@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements VC1Fragment.OnFragmentInteractionListener, VC2Fragment.OnFragmentInteractionListener{
 
+    public static String collectionsName = "goalItems3";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
