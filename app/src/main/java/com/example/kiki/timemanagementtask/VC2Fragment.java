@@ -98,6 +98,8 @@ public class VC2Fragment extends Fragment implements DatePickerFragment.DatePick
         createGoalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!Validation.isValid(goalNameEdit, goalTypeEdit, startDateEdit, ddlEdit))
+                    return;
                 String goalName = goalNameEdit.getText().toString();
                 String ddl = ddlEdit.getText().toString();
                 String goalType = goalTypeEdit.getText().toString();
@@ -137,7 +139,6 @@ public class VC2Fragment extends Fragment implements DatePickerFragment.DatePick
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     showDatePickerDialog("ddlDatePicker", mName);
-
                 }
             }
         });
@@ -178,6 +179,8 @@ public class VC2Fragment extends Fragment implements DatePickerFragment.DatePick
         addSubgoalDialog.show(fragmentManager, AddSubgoalDialog.mName);
 
     }
+
+
 
     @Override
     public void onAttach(Context context) {

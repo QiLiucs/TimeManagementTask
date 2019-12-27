@@ -74,6 +74,8 @@ public class AddSubgoalDialog extends DialogFragment implements DatePickerFragme
         addSubgoalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!Validation.isValid(subGoalnameEdit, durationEdit, difficultyEdit, startDateEdit, ddlEdit))
+                    return;
                 String subGoalName = subGoalnameEdit.getText().toString();
                 String ddl = ddlEdit.getText().toString();
                 String duration = durationEdit.getText().toString();
