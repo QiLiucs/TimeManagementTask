@@ -7,7 +7,7 @@ exports.readAllGoals = functions.https.onCall((req, res) => {
 
     var db = admin.firestore();
     var data = []
-    return db.collection("goalItems3").get().then(snapshot=>{
+    return db.collection("goalItems3").orderBy("ddl").get().then(snapshot=>{
         snapshot.forEach(doc => {
             data = data.concat(doc.data());
         });
