@@ -110,7 +110,7 @@ public class AddSubgoalDialog extends DialogFragment implements DatePickerFragme
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         if(this.getDialog().getCurrentFocus() != null){
             EditText editText = (EditText)this.getDialog().getCurrentFocus();
-            editText.setText(year + "-" + month + "-" + dayOfMonth);
+            editText.setText(year + "-" + (month < 10 ? "0" + month : month) + "-" + (dayOfMonth < 10 ? "0" + dayOfMonth : dayOfMonth));
         }
     }
     public void showDatePickerDialog(String s, String fragmentName) {

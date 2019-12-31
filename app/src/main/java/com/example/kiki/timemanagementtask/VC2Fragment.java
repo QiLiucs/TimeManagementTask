@@ -201,11 +201,11 @@ public class VC2Fragment extends Fragment implements DatePickerFragment.DatePick
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        if(getActivity().getCurrentFocus() != null){
-            EditText editText = (EditText)getActivity().getCurrentFocus();
-            editText.setText(year + "-" + month + "-" + dayOfMonth);
+        if(getActivity().getCurrentFocus() != null) {
+            month += 1;
+            EditText editText = (EditText) getActivity().getCurrentFocus();
+            editText.setText(year + "-" + (month < 10 ? "0" + month : month) + "-" + (dayOfMonth < 10 ? "0" + dayOfMonth : dayOfMonth));
         }
-
     }
 
     /**
