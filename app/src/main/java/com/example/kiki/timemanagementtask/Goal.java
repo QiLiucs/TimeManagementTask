@@ -105,9 +105,8 @@ public class Goal implements Parcelable {
     public static String computeHowManyDaysLeft(String startDate, String ddl){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date start = sdf.parse(startDate);
             Date end = sdf.parse(ddl);
-            long diff = end.getTime() - start.getTime();
+            long diff = end.getTime() - (new Date()).getTime();
             return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)+" days left";
         } catch (ParseException e) {
             e.printStackTrace();
