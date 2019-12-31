@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -24,6 +25,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +49,8 @@ public class VC1Fragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private FirebaseFirestore db;
     private String TAG = "VC1Fragment_tag";
-    private ArrayList<QueryDocumentSnapshot> goalList;
+    private ArrayList<JSONObject> goalList;
+    private FirebaseFunctions mFirebaseFunctions;
     public static String mName = "vc1";
 
 
@@ -56,6 +64,7 @@ public class VC1Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
         goalList = new ArrayList<>();
+        mFirebaseFunctions = FirebaseFunctions.getInstance();
     }
 
     @Override
@@ -90,48 +99,75 @@ public class VC1Fragment extends Fragment {
         progressBar.setProgress(0);//initially progress is 0
         progressBar.setMax(100);//sets the maximum value 100
         progressBar.show();//displays the progress bar
-        fetchData(ref, progressBar);
+        fetchData1(progressBar);
 
     }
 
-    public void fetchData(CollectionReference ref, final ProgressDialog progressBar) {
-        ref.orderBy("ddl", Query.Direction.ASCENDING).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        progressBar.dismiss();
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                goalList.add(document);
-
-                            }
-                            GoalItemAdapter goalItemAdapter = new GoalItemAdapter(getActivity(), goalList);
-                            ListView listView = getView().findViewById(R.id.listview);
-                            listView.setAdapter(goalItemAdapter);
-                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    TextView tvSubgoalsList = getView().findViewById(R.id.tvSubgoalsList);
-                                    QueryDocumentSnapshot document = goalList.get(position);
-                                    String res = "";
-                                    HashMap<String, Object> goalMap = (HashMap<String, Object>) document.getData();
-                                    ArrayList<HashMap<String, Object>> subGoalsList = (ArrayList<HashMap<String, Object>>) goalMap.get("subGoals");
-                                    for (HashMap<String, Object> map : subGoalsList) {
-                                        res += (String) map.get("subgoal");
+    public void fetchData1(final ProgressDialog progressBar) {
+        getAllGoals().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if(!task.isSuccessful()){//respond to then
+                    Exception e = task.getException();
+                    Log.e(TAG, e.getMessage());
+                }else{
+                    try {
+                        JSONArray jsonArray = new JSONArray(task.getResult());
+                        for(int i = 0; i < jsonArray.length(); i++){
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            goalList.add(jsonObject);
+                        }
+                        GoalItemAdapter goalItemAdapter = new GoalItemAdapter(getActivity(), goalList);
+                        ListView listView = getView().findViewById(R.id.listview);
+                        listView.setAdapter(goalItemAdapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                TextView tvSubgoalsList = getView().findViewById(R.id.tvSubgoalsList);
+                                JSONObject document = goalList.get(position);
+                                String res = "";
+                                try {
+                                    JSONArray subgoals = document.getJSONArray("subGoals");
+                                    for(int i = 0; i < subgoals.length(); i++){
+                                        JSONObject subgoalObj = subgoals.getJSONObject(i);
+                                        res += subgoalObj.getString("subgoal");
                                         res += "  ";
-                                        res += Goal.computeHowManyDaysLeft((String) map.get("startDate"), (String) map.get("ddl"));
+                                        res += Goal.computeHowManyDaysLeft(subgoalObj.getString("startDate"), subgoalObj.getString("ddl"));
                                         res += "\n\n";
                                     }
-                                    tvSubgoalsList.setText(res);
+                                    if(subgoals.length() == 0){
+                                        res = "no sub goals";
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    res = "get data failed!";
                                 }
-                            });
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
+                                tvSubgoalsList.setText(res);
+                            }
+                        });
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    progressBar.dismiss();
+                }
+            }
+        });
+    }
+
+    private Task<String> getAllGoals(){
+        return mFirebaseFunctions
+                .getHttpsCallable("readAllGoals")
+                .call()
+                .continueWith(new Continuation<HttpsCallableResult, String>() {
+                    @Override
+                    public String then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        // This continuation runs on either success or failure, but if the task
+                        // has failed then getResult() will throw an Exception which will be
+                        // propagated down.
+                        return (String) task.getResult().getData();
                     }
                 });
-
     }
 
     @Override

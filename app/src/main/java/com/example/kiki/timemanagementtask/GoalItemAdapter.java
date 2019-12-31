@@ -12,15 +12,19 @@ import android.widget.TextView;
 
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GoalItemAdapter extends BaseAdapter {
 
     private Activity mActivity;
-    private ArrayList<QueryDocumentSnapshot> mArrayList;
+    private ArrayList<JSONObject> mArrayList;
 
-    public GoalItemAdapter(Activity activity, ArrayList<QueryDocumentSnapshot> goalList) {
+    public GoalItemAdapter(Activity activity, ArrayList<JSONObject> goalList) {
         this.mActivity = activity;
         this.mArrayList = goalList;
     }
@@ -33,14 +37,21 @@ public class GoalItemAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        QueryDocumentSnapshot document = mArrayList.get(position);
-        HashMap<String, Object> data = (HashMap<String, Object>) document.getData();
-        Goal goal = new Goal((String)data.get("goalName"), (String)data.get("ddl"), (String)data.get("goalType"), (String)data.get("startDate"));
-        ArrayList<HashMap<String, Object>> arrayList = (ArrayList<HashMap<String, Object>>) data.get("subGoals");
-        for(HashMap<String, Object> map: arrayList){
-            SubGoal subGoal = new SubGoal((String)map.get("subgoal"), (String)map.get("ddl"),(String)map.get("duration"), (String)map.get("difficulty"), (String)map.get("startDate"));
-            goal.addSubgoal(subGoal);
+        JSONObject document = mArrayList.get(position);
+        Goal goal = null;
+        try {
+            goal = new Goal(document.getString("goalName"), document.getString("ddl"), document.getString("goalType"), document.getString("startDate"));
+            JSONArray subgoals = document.getJSONArray("subGoals");
+            for(int i = 0; i < subgoals.length(); i++){
+                JSONObject subgoalObj = subgoals.getJSONObject(i);
+                SubGoal subGoal = new SubGoal(subgoalObj.getString("subgoal"), subgoalObj.getString("ddl"),subgoalObj.getString("duration"), subgoalObj.getString("difficulty"), subgoalObj.getString("startDate"));
+                goal.addSubgoal(subGoal);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
         return goal;
     }
 
